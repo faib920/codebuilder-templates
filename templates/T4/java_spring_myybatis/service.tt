@@ -1,0 +1,50 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+    var ptype = GetPrimaryKeyPTypeNonNullable(table);
+    var pk = GetPrimaryKey(table);
+    var shortName = ToCamel(table.ClassName);
+#>
+package com.<#= host.Profile.Package #>.service;
+
+import com.<#= host.Profile.Package #>.mapper.<#= table.ClassName #>Mapper;
+import com.<#= host.Profile.Package #>.entity.<#= table.ClassName #>;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class <#= table.ClassName #>Service {
+
+    @Autowired
+    private <#= table.ClassName #>Mapper <#= shortName #>Mapper;
+
+    //查询所有
+    public List<<#= table.ClassName #>> findAll() {
+        return <#= shortName #>Mapper.findAll();
+    }
+
+    //新增
+    public int add<#= table.ClassName #>(<#= table.ClassName #> entity) {
+        return <#= shortName #>Mapper.add<#= table.ClassName #>(entity);
+    }
+
+    //查询单个
+    public <#= table.ClassName #> findOne(<#= ptype #> id) {
+        return <#= shortName #>Mapper.findOne(id);
+    }
+
+    //修改数据
+    public int editOne(<#= table.ClassName #> entity) {
+        return <#= shortName #>Mapper.editOne(entity);
+    }
+
+    //删除数据
+    public int deleteOne(<#= ptype #> id) {
+        return <#= shortName #>Mapper.deleteOne(id);
+    }
+}

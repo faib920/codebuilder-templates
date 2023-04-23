@@ -1,0 +1,66 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+    var ptype = GetPrimaryKeyPTypeNonNullable(table);
+    var pk = GetPrimaryKey(table);
+    var shortName = ToCamel(table.ClassName);
+#>
+package com.<#= host.Profile.Package #>.controller;
+
+import com.<#= host.Profile.Package #>.entity.<#= table.ClassName #>;
+import com.<#= host.Profile.Package #>.service.<#= table.ClassName #>Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+
+@Controller
+@RequestMapping("/<#= shortName #>")
+public class <#= table.ClassName #>Controller {
+
+    @Autowired
+    private <#= table.ClassName #>Service <#= shortName #>Service;
+
+    //查询所有
+    @RequestMapping("findAll")
+    @ResponseBody
+    public List<<#= table.ClassName #>> findAll() {
+        return <#= shortName #>Service.findAll();
+    }
+
+    //新增
+    @PostMapping("add")
+    @ResponseBody
+    public int add<#= table.ClassName #>(<#= table.ClassName #> entity) {
+        return <#= shortName #>Service.add<#= table.ClassName #>(entity);
+    }
+
+    //查询单个
+    @GetMapping("findOne")
+    @ResponseBody
+    public <#= table.ClassName #> findOne(<#= ptype #> id) {
+        return <#= shortName #>Service.findOne(id);
+    }
+
+    //修改单个数据
+    @PostMapping("editOne")
+    @ResponseBody
+    public int editOne(<#= table.ClassName #> entity) {
+        return <#= shortName #>Service.editOne(entity);
+    }
+
+    //删除数据
+    @GetMapping("/delete")
+    @ResponseBody
+    public int deleteOne(<#= ptype #> id) {
+        return <#= shortName #>Service.deleteOne(id);
+    }
+
+}

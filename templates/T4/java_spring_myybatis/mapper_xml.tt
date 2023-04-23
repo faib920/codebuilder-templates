@@ -1,0 +1,112 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+    var ptype = GetPrimaryKeyPTypeNonNullable(table);
+    var pk = table.PrimaryKeys[0].Name;
+#>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.<#= host.Profile.Package #>.mapper.<#= table.ClassName #>Mapper">
+
+    <resultMap id="BaseResultMap" type="com.<#= host.Profile.Package #>.entity.<#= table.ClassName #>">
+<#
+    var pks = new List<string>();
+    for (var i = 0; i < table.PrimaryKeys.Count; i++)
+    {
+        pks.Add(table.PrimaryKeys[i].Name);
+#>
+        <id property="<#= table.PrimaryKeys[i].PropertyName #>" column="identity" jdbcType="<#= table.PrimaryKeys[i].DataType.ToUpper() #>"/>
+<#
+    }
+    for (var i = 0; i < table.Columns.Count; i++)
+    {
+        var column = table.Columns[i];
+        if (pks.Contains(column.Name))
+        {
+            continue;
+        }
+#>
+        <result property="<#= column.PropertyName #>" column="<#= column.Name #>" jdbcType="<#= column.DataType.ToUpper() #>"/>
+<#
+    }
+#>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+<#
+    var index = 0;
+    for (var i = 0; i < table.Columns.Count; i++)
+    {
+#>
+        <#= table.Columns[i].Name #><#= i == table.Columns.Count - 1 ? "" : "," #>
+<#
+    }
+#>
+    </sql>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from <#= table.Name #>
+
+    </select>
+
+    <insert id="add<#= table.ClassName #>">
+        insert into <#= table.Name #>
+        (
+<#
+    index = 0;
+    for (var i = 0; i < table.Columns.Count; i++)
+    {
+#>
+            <#= table.Columns[i].Name #><#= i == table.Columns.Count - 1 ? "" : "," #>
+<#
+    }
+#>
+        ) values (
+<#
+    index = 0;
+    for (var i = 0; i < table.Columns.Count; i++)
+    {
+#>
+            #{<#= table.Columns[i].PropertyName #>}<#= i == table.Columns.Count - 1 ? "" : "," #>
+<#
+    }
+#>
+        )
+    </insert>
+
+    <select id="findOne" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from <#= table.Name #>
+        where <#= pk #> = <#= ptype == "String" ? "'#{id}'" : "#{id}" #>
+    </select>
+
+    <update id="editOne" parameterType="com.<#= host.Profile.Package #>.entity.<#= table.ClassName #>">
+        update
+        <#= table.Name #>
+        <trim prefix="set" suffixOverrides=",">
+<#
+    index = 0;
+    for (var i = 0; i < table.Columns.Count; i++)
+    {
+#>
+            <if test="<#= table.Columns[i].PropertyName #>!=null"><#= table.Columns[i].Name #>=#{<#= table.Columns[i].PropertyName #>}<#= i == table.Columns.Count - 1 ? "" : "," #></if>
+<#
+    }
+#>
+        </trim>
+        where <#= pk #> = <#= ptype == "String" ? "'#{id}'" : "#{id}" #>
+    </update>
+
+    <delete id="deleteOne">
+        delete
+        from <#= table.Name #>
+        where <#= pk #> = <#= ptype == "String" ? "'#{id}'" : "#{id}" #>
+    </delete>
+</mapper>

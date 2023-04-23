@@ -1,0 +1,17 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+#>
+type <#= table.ClassName #> struct {
+<#
+	foreach (var column in table.Columns)
+	{
+#>
+    <#= column.PropertyName #> <#= column.PropertyType #>
+<#
+	}
+#>
+}
