@@ -1,25 +1,29 @@
 ﻿{
-    "Name": "标准类 for C#",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": "C# 基本类。",
-    "Language": "CSharp",
-    "Partitions": [
-        {
-            "Name": "类",
-            "FileName": "class.tt",
-            "Output": "{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        }
+  "Name": "标准类 for C#",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "C# 基本类。",
+  "Language": "CSharp",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "类",
+      "FileName": "class.tt",
+      "Output": "{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs"
     ],
-    "Groups": [],
-    "Extension": {
-        "UseBase": true,
-        "Common": [],
-        "Schema": [],
-        "Profile": []
-    },
-    "Category": null
+    "Profile": [
+      "csharp.cs"
+    ]
+  }
 }

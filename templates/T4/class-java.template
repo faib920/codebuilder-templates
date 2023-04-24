@@ -1,17 +1,29 @@
-{
-    "Name": "标准类 for Java",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": "Java 基本类。",
-    "Language": "Java",
-    "Partitions": [
-        {
-            "Name": "Java类",
-            "FileName": "class.tt",
-            "Output": "{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "Java"
-        }
+﻿{
+  "Name": "标准类 for Java",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "Java 基本类。",
+  "Language": "Java",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "Java类",
+      "FileName": "class.tt",
+      "Output": "{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "Java",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "java.cs"
     ],
-    "Groups": []
+    "Profile": [
+      "java.cs"
+    ]
+  }
 }

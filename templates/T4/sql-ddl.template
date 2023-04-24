@@ -1,37 +1,49 @@
-{
-    "Name": "SQL定义脚本",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": "生成 SqlServer、MySql、Oracle 等数据库脚本。",
-    "Language": "Html",
-    "Partitions": [
-        {
-            "Name": "生成Oracle脚本",
-            "FileName": "oracle.tt",
-            "Output": "oracle.sql",
-            "Loop": "None",
-            "Syntax": "SQL"
-        },
-        {
-            "Name": "生成MySql脚本",
-            "FileName": "mysql.tt",
-            "Output": "mysql.sql",
-            "Loop": "None",
-            "Syntax": "SQL"
-        },
-        {
-            "Name": "生成SqlServer脚本",
-            "FileName": "sqlserver.tt",
-            "Output": "sqlserver.sql",
-            "Loop": "None",
-            "Syntax": "SQL"
-        },
-        {
-            "Name": "临时",
-            "FileName": "temp.tt",
-            "Output": "temp.sql",
-            "Loop": "None",
-            "Syntax": ""
-        }
-    ]
+﻿{
+  "Name": "SQL定义脚本",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "生成 SqlServer、MySql、Oracle 等数据库脚本。",
+  "Language": "SQL",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "生成Oracle脚本",
+      "FileName": "oracle.tt",
+      "Output": "oracle.sql",
+      "Loop": 0,
+      "Syntax": "SQL",
+      "Color": null
+    },
+    {
+      "Name": "生成MySql脚本",
+      "FileName": "mysql.tt",
+      "Output": "mysql.sql",
+      "Loop": 0,
+      "Syntax": "SQL",
+      "Color": null
+    },
+    {
+      "Name": "生成SqlServer脚本",
+      "FileName": "sqlserver.tt",
+      "Output": "sqlserver.sql",
+      "Loop": 0,
+      "Syntax": "SQL",
+      "Color": null
+    },
+    {
+      "Name": "临时",
+      "FileName": "temp.tt",
+      "Output": "temp.sql",
+      "Loop": 0,
+      "Syntax": "SQL",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [],
+    "Profile": []
+  }
 }

@@ -1,22 +1,22 @@
-﻿using CodeBuilder.Core;
+using CodeBuilder.Core;
 using CodeBuilder.Core.Source;
 using CodeBuilder.Core.Initializers;
 using System.Data;
 
 // 用于转换属性类型
 [SchemaInitializer(typeof(Column))]
-public class GoPropertyTypeInitializer : ISchemaInitializer
+public class VBPropertyTypeInitializer : ISchemaInitializer
 {
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        if (profile.Language == Language.Go)
+        if (profile.Language == Language.VB)
         {
-            column.PropertyType = GetGoType(column);
+            column.PropertyType = GetVBType(column);
         }
     }
     
-    private string GetGoType(Column column)
+    private string GetVBType(Column column)
     {
         var propertyType = column.PropertyType;
         if (column.DbType == null)
@@ -30,51 +30,59 @@ public class GoPropertyTypeInitializer : ISchemaInitializer
             case DbType.StringFixedLength:
             case DbType.AnsiString:
             case DbType.AnsiStringFixedLength:
-                propertyType = "string";
+                propertyType = "String";
                 break;
             case DbType.Int16:
-                propertyType = "int16";
+                propertyType = "Short";
                 break;
             case DbType.UInt16:
-                propertyType = "uint16";
+                propertyType = "UInt16";
                 break;
             case DbType.Int32:
-                propertyType = "int";
+                propertyType = "Integer";
                 break;
             case DbType.UInt32:
-                propertyType = "uint";
+                propertyType = "UInt32";
                 break;
             case DbType.Int64:
-                propertyType = "int64";
+                propertyType = "Long";
                 break;
             case DbType.UInt64:
-                propertyType = "uint64";
-                break;
-            case DbType.Single:
-                propertyType = "float32";
+                propertyType = "UInt64";
                 break;
             case DbType.Decimal:
+                propertyType = "Decimal";
+                break;
+            case DbType.Single:
+                propertyType = "Single";
+                break;
             case DbType.Double:
-                propertyType = "float64";
+                propertyType = "Double";
                 break;
             case DbType.Boolean:
-                propertyType = "bool";
+                propertyType = "Boolean";
                 break;
             case DbType.Byte:
-                propertyType = "int8";
-                break;
             case DbType.SByte:
-                propertyType = "uint8";
+                propertyType = column.Name.StartsWith("Is") ? "Boolean" : "Integer";
                 break;
             case DbType.Date:
             case DbType.DateTime:
             case DbType.DateTime2:
             case DbType.DateTimeOffset:
-                propertyType = "time.Time";
+                propertyType = "DateTime";
+                break;
+            case DbType.Guid:
+                propertyType = "Guid";
                 break;
             case DbType.Binary:
-                propertyType = "[]uint8";
+                propertyType = "Byte()";
                 break;
+        }
+
+        if (column.IsNullable && propertyType != "string" && column.DbType != DbType.Binary)
+        {
+            propertyType = "Nullable<" + propertyType + ">";
         }
 
         return propertyType;

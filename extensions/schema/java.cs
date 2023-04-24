@@ -5,18 +5,18 @@ using System.Data;
 
 // 用于转换属性类型
 [SchemaInitializer(typeof(Column))]
-public class GoPropertyTypeInitializer : ISchemaInitializer
+public class JavaPropertyTypeInitializer : ISchemaInitializer
 {
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        if (profile.Language == Language.Go)
+        if (profile.Language == Language.Java)
         {
-            column.PropertyType = GetGoType(column);
+            column.PropertyType = GetJavaType(column);
         }
     }
     
-    private string GetGoType(Column column)
+    private string GetJavaType(Column column)
     {
         var propertyType = column.PropertyType;
         if (column.DbType == null)
@@ -30,50 +30,42 @@ public class GoPropertyTypeInitializer : ISchemaInitializer
             case DbType.StringFixedLength:
             case DbType.AnsiString:
             case DbType.AnsiStringFixedLength:
-                propertyType = "string";
+                propertyType = "String";
                 break;
             case DbType.Int16:
-                propertyType = "int16";
-                break;
             case DbType.UInt16:
-                propertyType = "uint16";
+                propertyType = "short";
                 break;
             case DbType.Int32:
+            case DbType.UInt32:
                 propertyType = "int";
                 break;
-            case DbType.UInt32:
-                propertyType = "uint";
-                break;
             case DbType.Int64:
-                propertyType = "int64";
-                break;
             case DbType.UInt64:
-                propertyType = "uint64";
+                propertyType = "long";
                 break;
             case DbType.Single:
-                propertyType = "float32";
+                propertyType = "float";
                 break;
             case DbType.Decimal:
             case DbType.Double:
-                propertyType = "float64";
+                propertyType = "double";
                 break;
             case DbType.Boolean:
-                propertyType = "bool";
+                propertyType = "boolean";
                 break;
             case DbType.Byte:
-                propertyType = "int8";
-                break;
             case DbType.SByte:
-                propertyType = "uint8";
+                propertyType = "byte";
                 break;
             case DbType.Date:
             case DbType.DateTime:
             case DbType.DateTime2:
             case DbType.DateTimeOffset:
-                propertyType = "time.Time";
+                propertyType = "Date";
                 break;
             case DbType.Binary:
-                propertyType = "[]uint8";
+                propertyType = "byte[]";
                 break;
         }
 

@@ -5,7 +5,7 @@
     TemplateHost host = (TemplateHost)Host;
     var table = host.Current;
 #>
-package <#= host.Profile.Namespace #>.Models;
+package <#= host.Profile.Package #>.Models;
 
 public class <#= table.ClassName #> {
 <#

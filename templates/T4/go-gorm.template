@@ -1,1 +1,27 @@
-﻿{"Name":"GORM 示例","Author":null,"Version":0.0,"Description":null,"Language":"Go","Category":"","Partitions":[{"Name":"Model","FileName":"model.tt","Output":"{ClassName}.go","Loop":1,"Syntax":null,"Color":null}],"Groups":[],"Extension":{"UseBase":true,"Common":[],"Schema":["go.cs"],"Profile":[]}}
+﻿{
+  "Name": "GORM 示例",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": null,
+  "Language": "Go",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "Model",
+      "FileName": "model.tt",
+      "Output": "{ClassName}.go",
+      "Loop": 1,
+      "Syntax": "Go",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "go.cs"
+    ],
+    "Profile": []
+  }
+}

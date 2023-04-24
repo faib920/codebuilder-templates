@@ -1,57 +1,61 @@
 ﻿{
-    "Name": "Spring+Mybatis",
-    "Author": null,
-    "Version": 0,
-    "Description": null,
-    "Language": "Java",
-    "Partitions": [
-        {
-            "Name": "entity",
-            "FileName": "entity.tt",
-            "Output": "java\\com\\{Package}\\entity\\{ClassName}.java",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        },
-        {
-            "Name": "mapper",
-            "FileName": "mapper.tt",
-            "Output": "java\\com\\{Package}\\mapper\\{ClassName}Mapper.java",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        },
-        {
-            "Name": "controller",
-            "FileName": "controller.tt",
-            "Output": "java\\com\\{Package}\\controller\\{ClassName}Controller.java",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        },
-        {
-            "Name": "service",
-            "FileName": "service.tt",
-            "Output": "java\\com\\{Package}\\service\\{ClassName}Service.java",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        },
-        {
-            "Name": "mapper_xml",
-            "FileName": "mapper_xml.tt",
-            "Output": "resources\\mapper\\{ClassName}.xml",
-            "Loop": "Tables",
-            "Syntax": "C#",
-            "Color": null
-        }
-    ],
-    "Groups": [],
-    "Extension": {
-        "UseBase": true,
-        "Common": [],
-        "Schema": [],
-        "Profile": ["java.cs"]
+  "Name": "Spring+Mybatis",
+  "Author": null,
+  "Version": 0.0,
+  "Description": null,
+  "Language": "Java",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "entity",
+      "FileName": "entity.tt",
+      "Output": "java\\com\\{Package}\\entity\\{ClassName}.java",
+      "Loop": 1,
+      "Syntax": "Java",
+      "Color": null
     },
-    "Category": null
+    {
+      "Name": "mapper",
+      "FileName": "mapper.tt",
+      "Output": "java\\com\\{Package}\\mapper\\{ClassName}Mapper.java",
+      "Loop": 1,
+      "Syntax": "Java",
+      "Color": null
+    },
+    {
+      "Name": "controller",
+      "FileName": "controller.tt",
+      "Output": "java\\com\\{Package}\\controller\\{ClassName}Controller.java",
+      "Loop": 1,
+      "Syntax": "Java",
+      "Color": null
+    },
+    {
+      "Name": "service",
+      "FileName": "service.tt",
+      "Output": "java\\com\\{Package}\\service\\{ClassName}Service.java",
+      "Loop": 1,
+      "Syntax": "Java",
+      "Color": null
+    },
+    {
+      "Name": "mapper_xml",
+      "FileName": "mapper_xml.tt",
+      "Output": "resources\\mapper\\{ClassName}.xml",
+      "Loop": 1,
+      "Syntax": "XML",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "java.cs"
+    ],
+    "Profile": [
+      "java.cs"
+    ]
+  }
 }

@@ -1,26 +1,37 @@
-{ 
-    "Name": "EntityFrameworkCore",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": "EntityFrameworkCore 的实体模型。",
-    "Language": "CSharp",
-    "Extension": {
-        "UseBase": true
+﻿{
+  "Name": "EntityFrameworkCore",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "EntityFrameworkCore 的实体模型。",
+  "Language": "CSharp",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "实体类",
+      "FileName": "entity.tt",
+      "Output": "Models\\{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
     },
-    "Partitions":  [
-        { 
-            "Name": "实体类",
-            "FileName": "entity.tt",
-            "Output": "Models\\{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        },
-        {
-            "Name": "上下文类",
-            "FileName": "context.tt",
-            "Output": "Data\\DbContext.cs",
-            "Loop": "None",
-            "Syntax": "C#"
-        }
+    {
+      "Name": "上下文类",
+      "FileName": "context.tt",
+      "Output": "Data\\DbContext.cs",
+      "Loop": 0,
+      "Syntax": "C#",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs"
+    ],
+    "Profile": [
+      "csharp.cs"
     ]
+  }
 }

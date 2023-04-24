@@ -1,45 +1,55 @@
 ﻿{
-    "Name": "Fireasy 基本",
-    "Author": null,
-    "Version": 1.01,
-    "Description": "基于 Fireasy 框架的实体模型。",
-    "Language": "CSharp",
-    "Category": "Fireasy",
-    "Partitions": [
-        {
-            "Name": "实体类",
-            "FileName": "entity.tt",
-            "Output": "Models\\{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        },
-        {
-            "Name": "实体类_扩展",
-            "FileName": "entity_ex.tt",
-            "Output": "Models\\{ClassName}_Ex.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        },
-        {
-            "Name": "实体关系",
-            "FileName": "relation.tt",
-            "Output": "Models\\Relationships.cs",
-            "Loop": "None",
-            "Syntax": "C#"
-        },
-        {
-            "Name": "上下文类",
-            "FileName": "context.tt",
-            "Output": "Data\\DbContext.cs",
-            "Loop": "None",
-            "Syntax": "C#"
-        }
-    ],
-    "Groups": [],
-    "Extension": {
-        "UseBase": true,
-        "Common": [],
-        "Schema": ["template.t4.fireasy-base.cs"],
-        "Profile": ["template.t4.fireasy-base.cs"]
+  "Name": "Fireasy 基本",
+  "Author": null,
+  "Version": 1.01,
+  "Description": "基于 Fireasy 框架的实体模型。",
+  "Language": "CSharp",
+  "Category": "Fireasy",
+  "Partitions": [
+    {
+      "Name": "实体类",
+      "FileName": "entity.tt",
+      "Output": "Models\\{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "实体类_扩展",
+      "FileName": "entity_ex.tt",
+      "Output": "Models\\{ClassName}_Ex.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "实体关系",
+      "FileName": "relation.tt",
+      "Output": "Models\\Relationships.cs",
+      "Loop": 0,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "上下文类",
+      "FileName": "context.tt",
+      "Output": "Data\\DbContext.cs",
+      "Loop": 0,
+      "Syntax": "C#",
+      "Color": null
     }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs",
+      "template.t4.fireasy-base.cs"
+    ],
+    "Profile": [
+      "csharp.cs",
+      "template.t4.fireasy-base.cs"
+    ]
+  }
 }

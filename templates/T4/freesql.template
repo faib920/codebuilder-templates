@@ -1,31 +1,37 @@
 ﻿{
-    "Name": "FreeSql 基本",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": "FreeSql 的实体模型。",
-    "Language": "CSharp",
-    "Partitions": [
-        {
-            "Name": "实体类",
-            "FileName": "entity.tt",
-            "Output": "Entities\\{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        },
-        {
-            "Name": "仓储类",
-            "FileName": "repository.tt",
-            "Output": "Repositories\\{ClassName}Repository.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        }
-    ],
-    "Groups": [],
-    "Extension": {
-        "UseBase": true,
-        "Common": [],
-        "Schema": [],
-        "Profile": ["1.cs"]
+  "Name": "FreeSql 基本",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "FreeSql 的实体模型。",
+  "Language": "CSharp",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "实体类",
+      "FileName": "entity.tt",
+      "Output": "Entities\\{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
     },
-    "Category": null
+    {
+      "Name": "仓储类",
+      "FileName": "repository.tt",
+      "Output": "Repositories\\{ClassName}Repository.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs"
+    ],
+    "Profile": [
+      "csharp.cs"
+    ]
+  }
 }

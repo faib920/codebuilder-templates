@@ -4,14 +4,105 @@
 <# 
     TemplateHost host = (TemplateHost)Host;
     var table = host.Current;
+    var indentCount = GetIndentCount(table);
+    var indentFieldCount = GetIndentCountOfFieldType(table);
 #>
+package model
+
+//<#= table.Description #>
 type <#= table.ClassName #> struct {
 <#
 	foreach (var column in table.Columns)
 	{
 #>
-    <#= column.PropertyName #> <#= column.PropertyType #>
+    <#= column.PropertyName #><#= new string(' ', indentCount - column.PropertyName.Length) #><#= column.PropertyType #><#= new string(' ', indentFieldCount - column.PropertyType.Length) #><#= GetModelField(column) #> //<#= column.Description #>
+<#
+	}
+	foreach (dynamic fk in table.ForeignKeys)
+	{
+#>
+    <#= fk.PkTable.ClassName #><#= new string(' ', indentCount - fk.PkTable.ClassName.Length) #><#= fk.PkTable.ClassName #><#= new string(' ', indentFieldCount - fk.PkTable.ClassName.Length) #>`gorm:"foreignKey:<#= fk.FkColumn.PropertyName #>"`
+<#
+	}
+	foreach (dynamic fk in table.SubKeys)
+	{
+	    var cn = ToPlural(fk.FkTable.ClassName);
+#>
+    <#= cn #><#= new string(' ', indentCount - cn.Length) #>[]<#= fk.FkTable.ClassName #><#= new string(' ', indentFieldCount - (fk.FkTable.ClassName.Length + 2)) #>`gorm:"foreignKey:<#= fk.FkColumn.PropertyName #>"`
 <#
 	}
 #>
 }
+
+func (<#= table.ClassName #>) TableName() string {
+	return "<#= table.Name #>"
+}
+<#+
+//获取 gorm 字段
+public static string GetModelField(Column column)
+{
+    var fields = new List<string>();
+    
+    if (column.Name != column.PropertyName)
+    {
+        fields.Add("column:" + column.Name);
+    }
+    if (column.IsPrimaryKey)
+    {
+        fields.Add("primaryKey");
+    }
+    if (!string.IsNullOrEmpty(column.Description))
+    {
+        fields.Add("comment:" + column.Description.Replace(":", " "));
+    }
+    if (fields.Count > 0)
+    {
+        return "`gorm:\"" + string.Join(";", fields) + "\"`";
+    }
+    
+    return string.Empty;
+}
+
+//获取最多缩进的空格数量
+public static int GetIndentCount(Table table)
+{
+    var length = 0;
+    foreach (var column in table.Columns)
+    {
+        var l = column.PropertyName.Length;
+        length = Math.Max(l, length);
+    }
+    foreach (var fk in table.ForeignKeys)
+    {
+        var l = fk.PkTable.ClassName.Length;
+        length = Math.Max(l, length);
+    }
+    foreach (var fk in table.SubKeys)
+    {
+        var l = ToPlural(fk.FkTable.ClassName).Length;
+        length = Math.Max(l, length);
+    }
+    return length + 2;
+}
+
+public static int GetIndentCountOfFieldType(Table table)
+{
+    var length = 0;
+    foreach (var column in table.Columns)
+    {
+        var l = column.PropertyType.Length;
+        length = Math.Max(l, length);
+    }
+    foreach (var fk in table.ForeignKeys)
+    {
+        var l = fk.PkTable.ClassName.Length;
+        length = Math.Max(l, length);
+    }
+    foreach (var fk in table.SubKeys)
+    {
+        var l = ToPlural(fk.FkTable.ClassName).Length;
+        length = Math.Max(l, length);
+    }
+    return length + 2;
+}
+#>
