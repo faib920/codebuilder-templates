@@ -70,7 +70,7 @@
 | htmldoc | Html | 将数据库结构输出 HTML 文档 |
 | java_spring_myybatis | Java | 基于 Spring + Mybatis 的 Java 项目 |
 | sql-ddl | SQL | 用于生成 Oracle、MySql 和 SqlServer 的 DDL 脚本 |
-| sqlsugar | C# | 基于 SqlSugar 的实体类 |
+| sqlsugar | C# | 基于 SqlSugar 的实体类和仓储 |
 
 * Razor
 
