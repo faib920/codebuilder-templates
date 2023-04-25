@@ -1,0 +1,35 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+#>
+// **************************************
+// 生成：CodeBuilder (http://www.fireasy.cn/codebuilder)
+// 项目：<#= host.Profile.ProjectName #>
+// 版权：Copyright <#= host.Profile.CompanyName #>
+// 作者：<#= host.Profile.Author #>
+// 时间：<#= DateTime.Now #>
+// **************************************
+using <#= host.Profile.Namespace #>.IDAL;
+using <#= host.Profile.Namespace #>.DAL;
+using <#= host.Profile.Namespace #>.Model;
+﻿using SqlSugar;
+
+namespace <#= host.Profile.Namespace #>.DAL
+{
+    public class NinjectItem : NinjectModule
+    {
+        public override void Load()
+        {
+
+<#
+foreach (var table in host.Tables)
+{
+#>
+            Bind<I<#= table.ClassName #>Repository>().To<<#= table.ClassName #>Repository>();
+<#
+}
+#>
+        }
+}

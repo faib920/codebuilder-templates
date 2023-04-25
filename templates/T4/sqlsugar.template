@@ -9,8 +9,40 @@
     {
       "Name": "实体类",
       "FileName": "entity.tt",
-      "Output": "Entities\\{ClassName}.cs",
+      "Output": "Model\\{ClassName}.cs",
       "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "仓储接口类",
+      "FileName": "irepository.tt",
+      "Output": "IDAL\\I{ClassName}Repository.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "仓储类",
+      "FileName": "repository.tt",
+      "Output": "DAL\\{ClassName}Repository.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "数据库工厂类",
+      "FileName": "dbfactory.tt",
+      "Output": "DAL\\DBFactory.cs",
+      "Loop": 0,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "注入模块",
+      "FileName": "ninject.tt",
+      "Output": "DAL\\NinjectItem.cs",
+      "Loop": 0,
       "Syntax": "C#",
       "Color": null
     }

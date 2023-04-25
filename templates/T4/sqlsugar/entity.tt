@@ -16,7 +16,7 @@ using System;
 ﻿using SqlSugar;
 using System.Collections.Generic;
 
-namespace <#= host.Profile.Namespace #>.Entities
+namespace <#= host.Profile.Namespace #>.Model
 {
     /// <summary>
     /// <#= table.Description #>

@@ -1,0 +1,85 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+#>
+// **************************************
+// 生成：CodeBuilder (http://www.fireasy.cn/codebuilder)
+// 项目：<#= host.Profile.ProjectName #>
+// 版权：Copyright <#= host.Profile.CompanyName #>
+// 作者：<#= host.Profile.Author #>
+// 时间：<#= DateTime.Now #>
+// **************************************
+using <#= host.Profile.Namespace #>.IDAL;
+using <#= host.Profile.Namespace #>.Model;
+﻿using SqlSugar;
+
+namespace <#= host.Profile.Namespace #>.DAL
+{
+    public class DBFactory
+    {
+        /// <summary>
+        /// 数据库访问公共入口
+        /// </summary>
+        public static SqlSugar.SqlSugarClient db
+        {
+            get
+            {
+                SqlSugarFactory dbSQl = new SqlSugarFactory();
+                return dbSQl.db;
+            }
+        }
+	    public static string Id
+        {
+            get
+            {
+                return System.Guid.NewGuid().ToString("N");
+            }
+        }
+        /// <summary>
+        /// 数据库访问公共入口
+        /// </summary>
+        private static SqlSugarFactory _db { set; get; }
+        /// <summary>
+        /// 数据库访问公共入口
+        /// </summary>
+        public static SqlSugarFactory DB
+        {
+            get
+            {
+                if (_db == null)
+                {
+                    _db = NinjectModel.GetEntity<SqlSugarFactory>();
+                }
+                return _db;
+            }
+        }
+
+<#
+foreach (var table in host.Tables)
+{
+    var name = ToCamel(table.ClassName);
+#>
+        /// <summary>
+        /// 数据库实体注入
+        /// </summary>
+        private static I<#= table.ClassName #>Repository _<#= name #> { set; get; }
+        /// <summary>
+        /// 数据库实体注入
+        /// </summary>
+        public static I<#= table.ClassName #>Repository <#= table.ClassName #>
+        {
+            get
+            {
+                if (_<#= name #> == null)
+                {
+                    _<#= name #> = NinjectModel.GetEntity<<#= table.ClassName #>Repository>();
+                }
+                return _<#= name #>;
+            }
+        }
+<#
+}
+#>
+}

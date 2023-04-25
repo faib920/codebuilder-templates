@@ -37,7 +37,18 @@
             pageSize:20,//每页的行数
             idField: '<#= pk #>',
             columns: [[
-                $PropertyFields$
+    <#
+    foreach (dynamic column in table.Columns)
+    {
+        if (column.IsPrimaryKey || !column.GenerateField)
+        {
+            continue;
+        }
+    #>
+                    { field: '<#= column.Name #>', title: '<#= string.IsNullOrEmpty(column.Description) ? column.Name : column.Description #>', width: 200 }<#= column.Index < table.Columns.Count ? ",": "" #>
+    <#
+    }
+    #>
             ]],
             onDblClickRow: function () {
                 if ($('a[key="edit"]').length == 1) {

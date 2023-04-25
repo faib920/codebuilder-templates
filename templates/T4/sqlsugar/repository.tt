@@ -1,0 +1,25 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+#>
+// **************************************
+// 生成：CodeBuilder (http://www.fireasy.cn/codebuilder)
+// 项目：<#= host.Profile.ProjectName #>
+// 版权：Copyright <#= host.Profile.CompanyName #>
+// 作者：<#= host.Profile.Author #>
+// 时间：<#= DateTime.Now #>
+// **************************************
+using <#= host.Profile.Namespace #>.IDAL;
+using <#= host.Profile.Namespace #>.Model;
+﻿using SqlSugar;
+
+namespace <#= host.Profile.Namespace #>.DAL
+{
+	public partial class <#= table.ClassName #>Repository : BaseRepository<<#= table.ClassName #>>, I<#= table.ClassName #>Repository
+	{
+		 //这个是每个实体对应的操作方法
+	}
+}
