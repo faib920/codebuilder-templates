@@ -2,6 +2,11 @@
 
 　CodeBuilder 的模板仓库，提供各种语言的模板定义。
 
+## 安装说明
+　前往 [http://fireasy.cn/codebuilder](http://fireasy.cn/codebuilder) 下载安装。
+
+　将本仓库的 extensions、templates 目录复制到工具运行目录下。
+
 ## 目录说明
 
 ### *extensions*
