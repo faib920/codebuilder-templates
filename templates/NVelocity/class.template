@@ -1,17 +1,29 @@
 ﻿{
-    "Name": "标准类",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": null,
-    "Language": "CSharp",
-    "Partitions": [
-        {
-            "Name": "类",
-            "FileName": "class.vm",
-            "Output": "{ClassName}.cs",
-            "Loop": "Tables",
-            "Syntax": "C#"
-        }
+  "Name": "标准类",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "",
+  "Language": "CSharp",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "类",
+      "FileName": "class.vm",
+      "Output": "{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs"
     ],
-    "Groups": []
+    "Profile": [
+      "csharp.cs"
+    ]
+  }
 }

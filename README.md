@@ -101,23 +101,23 @@
       "FileName": "solution.tt", //模板文件名(相对路径)
       "Output": "{ProjectCode}.sln", //输出文件名
       "Loop": 0, //循环 0:无 1:表 2:关系
-      "Syntax": "XML", //语法
-      "Color": "0,128,128" //颜色(R,G,B)
+      "Syntax": "<语法，如XML、CSharp>",
+      "Color": "<颜色，R,G,B>"
     }
   ], //部件
   "Groups": [
     {
-      "Name": "Entities", //组名称
-      "Color": null, //颜色
-      "Groups": [], //子组
+      "Name": "<组名称，一般为子文件夹>",
+      "Color": "<颜色>", //颜色
+      "Groups": [],
       "Partitions": [
         {
-          "Name": "实体", //部件名称
-          "FileName": "entities\\entity.tt", //模板文件名(相对路径)
-          "Output": "{ProjectCode}\\Entities\\{ClassName}.cs", //输出文件名
+          "Name": "<部件名称，如实体类、仓储类>",
+          "FileName": "<模板文件名，如 entities\\entity.tt>",
+          "Output": "<输出文件名，如{ProjectCode}\\Entities\\{ClassName}.cs>",
           "Loop": 1, //循环 0:无 1:表 2:关系
           "Syntax": "C#", //语法
-          "Color": null //颜色(R,G,B)
+          "Color": "<颜色，R,G,B>"
         }
       ] //组下的部件
     }

@@ -1,24 +1,37 @@
-{ 
-    Name : "Entity Framework 6",
-    "Author": "fireasy",
-    "Version": 1,
-    "Description": null,
-    "Language": "CSharp",
-	Partitions : 
-	[
-		{ 
-			Name : "实体类",
-			FileName: "entity.cshtml",
-			Output: "Models\\{ClassName}.cs",
-			Loop: "Tables",
-			Syntax: "C#"
-		},
-		{
-			Name : "上下文类",
-			FileName: "context.cshtml",
-			Output: "Data\\DbContext.cs",
-			Loop: "None",
-			Syntax: "C#"
-		}
-	]
+﻿{
+  "Name": "Entity Framework 6",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "",
+  "Language": "CSharp",
+  "Category": "",
+  "Partitions": [
+    {
+      "Name": "实体类",
+      "FileName": "entity.cshtml",
+      "Output": "Models\\{ClassName}.cs",
+      "Loop": 1,
+      "Syntax": "C#",
+      "Color": null
+    },
+    {
+      "Name": "上下文类",
+      "FileName": "context.cshtml",
+      "Output": "Data\\DbContext.cs",
+      "Loop": 0,
+      "Syntax": "C#",
+      "Color": null
+    }
+  ],
+  "Groups": [],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "csharp.cs"
+    ],
+    "Profile": [
+      "csharp.cs"
+    ]
+  }
 }
