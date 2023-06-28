@@ -1,0 +1,336 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+    var pk = GetPrimaryKey(table);
+    var url = CheckEnd(host.Profile.Module, "/");
+#>
+<template>
+  <div class="app-container">
+    <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">
+<#
+    foreach (var column in table.Columns)
+    {
+        if (!column.Conditional)
+        {
+            continue;
+        }
+#>
+      <el-form-item label="<#= column.Description #>" prop="<#= column.PropertyName #>">
+        <<#= GetFormElementTag(column) #>
+          v-model="queryParams.<#= column.PropertyName #>"
+          placeholder="请输入<#= column.Description #>"
+          clearable
+          size="small"
+          style="width: 240px"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+<#
+    }
+#>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd" v-hasPermi="['system:role:add']">新增</el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="loadData"></right-toolbar>
+    </el-row>
+
+    <el-table v-loading="loading" :data="roleList" highlight-current-row @selection-change="handleSelectionChange">
+<#
+    foreach (var column in table.Columns)
+    {
+#>
+      <el-table-column label="<#= column.Description #>" prop="<#= column.PropertyName #>" />
+<#
+    }
+#>
+      <el-table-column label="操作" align="center" width="200">
+        <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-edit" @click.stop="handleUpdate(scope.row)" v-hasPermi="['<#= host.Profile.Module ?? "" #>:<#= table.Name #>:edit']">修改
+          </el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click.stop="handleDelete(scope.row)" v-hasPermi="['<#= host.Profile.Module ?? "" #>:<#= table.Name #>:remove']">删除
+          </el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <pagination :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize" @pagination="search" />
+
+    <!-- 添加或修改对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+<#
+    foreach (var column in table.Columns)
+    {
+        if (column.ElementType == ElementType.None)
+        {
+            continue;
+        }
+#>
+        <el-form-item label="<#= column.Description #>" prop="<#= column.PropertyName #>">
+          <#= GetFormElement(column) #>
+        </el-form-item>
+<#
+    }
+#>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { search, list, add, update, delete, detail, export } from '@/api/<#= url #><#= table.Name #>'
+
+export default {
+  name: 'post',
+  data() {
+    return {
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      // 表格数据
+      items: [],
+      // 弹出层标题
+      title: '',
+      // 是否显示弹出层
+      open: false,
+      // 状态数据字典
+      statusOptions: [],
+      //关联的数据
+<#  foreach (var r in table.ForeignKeys)
+    {
+#>
+      <#= ToCamel(r.PkTable.Name) #>Data: [],
+<#
+    }
+#>
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+<#
+    foreach (var column in table.Columns)
+    {
+        if (!column.Conditional)
+        {
+            continue;
+        }
+#>
+        <#= column.PropertyName #>: undefined,
+      }
+<#
+    }
+#>
+      },
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+<#
+    foreach (var column in table.Columns)
+    {
+        if (column.IsNullable || column.IsPrimaryKey)
+        {
+            continue;
+        }
+#>
+        <#= column.PropertyName #>: [{ required: true, message: '<#= column.Description #>不能为空', trigger: 'blur' }],
+<#
+    }
+#>
+      },
+    }
+  },
+  created() {
+    this.getRefData();
+    this.loadData()
+  },
+  methods: {
+    /** 查询列表 */
+    loadData() {
+      this.loading = true
+      search(this.queryParams).then((response) => {
+        this.items = response.data.Items
+        this.total = response.data.Total
+        this.loading = false
+      })
+    },
+    //初始化关联数据
+    getRefData: {
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false
+      this.reset()
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+<#
+    foreach (var column in table.Columns)
+    {
+        if (!column.Conditional)
+        {
+            continue;
+        }
+#>
+        <#= column.PropertyName #>: undefined,
+      }
+<#
+    }
+#>
+      this.resetForm('form')
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1
+      this.loadData()
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm('queryForm')
+      this.handleQuery()
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map((item) => item.<#= pk #>)
+      this.single = selection.length != 1
+      this.multiple = !selection.length
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset()
+      this.open = true
+      this.title = '添加<#= table.Description #>'
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset()
+      const dataid = row.<#= pk #> || this.ids
+      detail(dataid).then((response) => {
+        this.form = response.data
+        this.open = true
+        this.title = '修改<#= table.Description #>'
+      })
+    },
+    /** 提交按钮 */
+    submitForm: function () {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          if (this.form.<#= pk #> != undefined) {
+            update(this.form).then((response) => {
+              this.msgSuccess('修改成功')
+              this.open = false
+              this.loadData()
+            })
+          } else {
+            add(this.form).then((response) => {
+              this.msgSuccess('新增成功')
+              this.open = false
+              this.loadData()
+            })
+          }
+        }
+      })
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      const dataIds = row.<#= pk #> || this.ids
+      this.$confirm('是否确认删除所选的数据吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(function () {
+          return delete(dataIds)
+        })
+        .then(() => {
+          this.loadData()
+          this.msgSuccess('删除成功')
+        })
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      const queryParams = this.queryParams
+      this.$confirm('是否确认导出所有的数据吗?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(async () => {
+        await export(queryParams)
+      })
+      .then((response) => {
+       	this.download(response.data.path);
+      });
+    },
+  },
+}
+</script>
+
+<#+
+private string GetFormElement(Column column)
+{
+    switch (column.ElementType)
+    {
+        case ElementType.Input:
+            return "<el-input v-model=\"form." + column.PropertyName + "\" placeholder=\"请输入" + column.Description + "\" />";
+        case ElementType.Checkbox:
+            return "<el-checkbox v-model=\"form." + column.PropertyName + "\" />";
+        case ElementType.Numberbox:
+            return "<el-input-number v-model=\"form." + column.PropertyName + "\" placeholder=\"请输入" + column.Description + "\" />";
+        case ElementType.Select:
+            if (column.ForeignKey != null)
+            {
+                return "<el-select v-model=\"form." + column.PropertyName + "\" placeholder=\"请选择" + column.Description + "\">\n" +
+                "            <el-option v-for=\"item in " + ToCamel(column.ForeignKey.PkTable.Name) + "Data\" :key=\"item." + column.ForeignKey.PkColumn.PropertyName + "\" :label=\"item.Name\" :value=\"item." + column.PropertyName + "\"></el-option>\n" +
+                "          </el-select>";
+            }
+            return "<el-select v-model=\"form." + column.PropertyName + "\" placeholder=\"请选择" + column.Description + "\" />";
+        case ElementType.TimePicker:
+            return "<el-time-select v-model=\"form." + column.PropertyName + "\" placeholder=\"请选择" + column.Description + "\" />";
+        case ElementType.DateTimePicker:
+            return "<el-date-picker v-model=\"form." + column.PropertyName + "\" placeholder=\"请选择" + column.Description + "\" />";
+        default: return "";
+    }
+}
+private string GetFormElementTag(Column column)
+{
+    switch (column.ElementType)
+    {
+        case ElementType.Input:
+            return "el-input";
+        case ElementType.Checkbox:
+            return "el-checkbox";
+        case ElementType.Numberbox:
+            return "el-input-number";
+        case ElementType.Select:
+            return "el-select";
+        case ElementType.TimePicker:
+            return "el-time-select";
+        case ElementType.DateTimePicker:
+            return "el-date-picker";
+        default: return "";
+    }
+}
+#>

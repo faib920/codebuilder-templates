@@ -10,10 +10,7 @@ public class VBPropertyTypeInitializer : ISchemaInitializer
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        if (profile.Language == Language.VB)
-        {
-            column.PropertyType = GetVBType(column);
-        }
+        column.PropertyType = GetVBType(column);
     }
     
     private string GetVBType(Column column)

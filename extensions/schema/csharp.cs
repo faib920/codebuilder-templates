@@ -10,10 +10,7 @@ public class CSharpPropertyTypeInitializer : ISchemaInitializer
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        if (profile.Language == Language.CSharp)
-        {
-            column.PropertyType = GetCSharpType(column);
-        }
+        column.PropertyType = GetCSharpType(column);
     }
     
     private string GetCSharpType(Column column)

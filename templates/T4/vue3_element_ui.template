@@ -1,0 +1,52 @@
+﻿{
+  "Name": "vue3 + element-ui 示例",
+  "Author": "fireasy",
+  "Version": 1.0,
+  "Description": "vue3+element-ui 的视图及api。",
+  "Language": "Vue",
+  "Category": "Vue",
+  "Partitions": [],
+  "Groups": [
+    {
+      "Name": "api",
+      "Color": null,
+      "Groups": [],
+      "Partitions": [
+        {
+          "Name": "api.ts",
+          "FileName": "api.tt",
+          "Output": "api\\{Module}\\{Name}.ts",
+          "Loop": 1,
+          "Syntax": "TypeScript",
+          "Color": null
+        }
+      ]
+    },
+    {
+      "Name": "views",
+      "Color": null,
+      "Groups": [],
+      "Partitions": [
+        {
+          "Name": "index.vue",
+          "FileName": "index.tt",
+          "Output": "views\\{Module}\\{Name}\\index.vue",
+          "Loop": 1,
+          "Syntax": "JavaScript",
+          "Color": null
+        }
+      ]
+    }
+  ],
+  "Extension": {
+    "UseBase": true,
+    "Common": [],
+    "Schema": [
+      "vue.cs",
+      "element-ui.cs"
+    ],
+    "Profile": [
+      "vue.cs"
+    ]
+  }
+}

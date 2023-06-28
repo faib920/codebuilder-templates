@@ -10,10 +10,7 @@ public class GoPropertyTypeInitializer : ISchemaInitializer
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        if (profile.Language == Language.Go)
-        {
-            column.PropertyType = GetGoType(column);
-        }
+        column.PropertyType = GetGoType(column);
     }
     
     private string GetGoType(Column column)

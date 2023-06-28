@@ -29,38 +29,4 @@ public class ProfileBaseExt
 
     [Description("字段转换的命名方式。Original 延续原始名称；Pascal 首字母大写，适用于用_分隔的命名，如 product_id 转换为 ProductId；Camel 首字母小写，如 product_id 转换为 productId。")]
     public NamingMode ColumnNamingMode { get; set; }
-
-    [Description("语言，主要对 PropertyType 产生影响。")]
-    public Language Language { get; set; }
-}
-
-public class LanguageInitializer : IProfileInitializer
-{
-    public void Initialize(dynamic profile, TemplateDefinition template)
-    {
-        if (template == null)
-        {
-            return;
-        }
-        if (template.Language == "CSharp")
-        {
-            profile.Language = Language.CSharp;
-        }
-        else if (template.Language == "Java")
-        {
-            profile.Language = Language.Java;
-        }
-        else if (template.Language == "VB")
-        {
-            profile.Language = Language.VB;
-        }
-        else if (template.Language == "Go")
-        {
-            profile.Language = Language.Go;
-        }
-        else
-        {
-            profile.Language = Language.None;
-        }
-    }
 }

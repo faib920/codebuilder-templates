@@ -1,0 +1,38 @@
+﻿<#@ template hostSpecific="true" debug="true" #>
+<#@ output extension=".cs" #>
+<#@ include file="public\base.tt" #>
+<# 
+    TemplateHost host = (TemplateHost)Host;
+    var table = host.Current;
+    var url = CheckEnd(host.Profile.Module, "/");
+#>
+import request from '@/utils/request'
+
+// <#= table.Description #>列表
+export function list(params: any) {
+    return request.post({ url: '/api/<#= url #><#= table.Name #>/list', params })
+}
+// <#= table.Description #>搜索
+export function search(params: any) {
+    return request.post({ url: '/api/<#= url #><#= table.Name #>/search', params })
+}
+// 添加<#= table.Description #>
+export function add(params: any) {
+    return request.post({ url: '/api/<#= url #><#= table.Name #>', params })
+}
+// 编辑<#= table.Description #>
+export function update(params: any) {
+    return request.put({ url: '/api/<#= url #><#= table.Name #>', params })
+}
+// 删除<#= table.Description #>
+export function delete(params: any) {
+    return request.delete({ url: '/api/<#= url #><#= table.Name #>', params })
+}
+// <#= table.Description #>详情
+export function detail(id: any) {
+    return request.get({ url: '/api/<#= url #><#= table.Name #>/' + id })
+}
+// <#= table.Description #>导出
+export function export(params: any) {
+    return request.post({ url: '/api/<#= url #><#= table.Name #>/export', params })
+}

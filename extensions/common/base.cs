@@ -4,16 +4,3 @@
     Pascal, //首字母大写，适用于用-分隔的命名,
     Camel //首字母小写
 }
-
-public enum Language
-{
-    None,
-    CSharp,
-    VB,
-    Java,
-    Python,
-    Go,
-    Php,
-    JavaScript,
-    TypeScript
-}

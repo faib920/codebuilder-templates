@@ -5,15 +5,15 @@ using System.Data;
 
 // 用于转换属性类型
 [SchemaInitializer(typeof(Column))]
-public class JavaPropertyTypeInitializer : ISchemaInitializer
+public class TypeScriptPropertyTypeInitializer : ISchemaInitializer
 {
     public void Initialize(dynamic profile, dynamic schema)
     {
         var column = schema as Column;
-        column.PropertyType = GetJavaType(column);
+        column.PropertyType = GetTypeScriptType(column);
     }
     
-    private string GetJavaType(Column column)
+    private string GetTypeScriptType(Column column)
     {
         var propertyType = column.PropertyType;
         if (column.DbType == null)
@@ -27,42 +27,30 @@ public class JavaPropertyTypeInitializer : ISchemaInitializer
             case DbType.StringFixedLength:
             case DbType.AnsiString:
             case DbType.AnsiStringFixedLength:
-                propertyType = "String";
-                break;
-            case DbType.Int16:
-            case DbType.UInt16:
-                propertyType = "short";
-                break;
-            case DbType.Int32:
-            case DbType.UInt32:
-                propertyType = "int";
-                break;
-            case DbType.Int64:
-            case DbType.UInt64:
-                propertyType = "long";
-                break;
-            case DbType.Single:
-                propertyType = "float";
-                break;
-            case DbType.Decimal:
-            case DbType.Double:
-                propertyType = "double";
-                break;
-            case DbType.Boolean:
-                propertyType = "boolean";
-                break;
-            case DbType.Byte:
-            case DbType.SByte:
-                propertyType = "byte";
-                break;
             case DbType.Date:
             case DbType.DateTime:
             case DbType.DateTime2:
             case DbType.DateTimeOffset:
-                propertyType = "Date";
+                propertyType = "string";
                 break;
-            case DbType.Binary:
-                propertyType = "byte[]";
+            case DbType.Int16:
+            case DbType.UInt16:
+            case DbType.Int32:
+            case DbType.UInt32:
+            case DbType.Int64:
+            case DbType.UInt64:
+            case DbType.Decimal:
+            case DbType.Double:
+            case DbType.Single:
+            case DbType.Byte:
+            case DbType.SByte:
+                propertyType = "number";
+                break;
+            case DbType.Boolean:
+                propertyType = "boolean";
+                break;
+            default:
+                propertyType = "any";
                 break;
         }
 
